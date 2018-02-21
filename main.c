@@ -79,15 +79,16 @@ int main()
           printf("read error\n");
           return 1;
         }
-        // value not currently used
-        // value = ev[0].value;
-        snd_seq_ev_clear(&mev);
-        snd_seq_ev_set_note(&mev, 0, cfg_getint(cfg, "pitch"),
-            cfg_getint(cfg, "velocity"), cfg_getint(cfg, "duration"));
-        snd_seq_ev_schedule_tick(&mev, queue_id,  0, 0);
-        snd_seq_ev_set_source(&mev, port_out_id);
-        snd_seq_ev_set_subs(&mev);
-        snd_seq_event_output_direct(seq_handle, &mev);
+        printf("type0 %d value0 %d, type1 %d value1 %d\n", ev[0].type, ev[0].value, ev[1].type, ev[1].value);
+        if (ev[1].type == EV_KEY && ev[1].value == 0) { // key release
+            snd_seq_ev_clear(&mev);
+            snd_seq_ev_set_note(&mev, 0, cfg_getint(cfg, "pitch"),
+                cfg_getint(cfg, "velocity"), cfg_getint(cfg, "duration"));
+            snd_seq_ev_schedule_tick(&mev, queue_id,  0, 0);
+            snd_seq_ev_set_source(&mev, port_out_id);
+            snd_seq_ev_set_subs(&mev);
+            snd_seq_event_output_direct(seq_handle, &mev);
+        }
     }
     return 0;
 }
