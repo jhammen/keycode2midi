@@ -79,7 +79,6 @@ int main()
           printf("read error\n");
           return 1;
         }
-        printf("type0 %d value0 %d, type1 %d value1 %d\n", ev[0].type, ev[0].value, ev[1].type, ev[1].value);
         if (ev[1].type == EV_KEY && ev[1].value == 0) { // key release
             snd_seq_ev_clear(&mev);
             snd_seq_ev_set_note(&mev, 0, cfg_getint(cfg, "pitch"),
